@@ -1,57 +1,73 @@
 package eg.edu.alexu.csd.filestructure.sort;
 
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.PriorityQueue;
+import java.util.Random;
 
-class Node<T extends Comparable<T>> implements INode {
-	private Integer index;
-	private ArrayList nodes;
-	Comparable val;
+public class Node implements INode {
+    ArrayList<Node> arr;
+    Comparable val;
+    int index;
 
-	public Node( ArrayList nodes,Integer index) {
-		this.index = index;
-		this.nodes=nodes;
-	}
+    public Node(ArrayList<Node> arr, int index) {
+        this.arr = arr;
+        this.index = index;
+    }
 
-	public Integer getIndex() {
-		return index;
-	}
+    @Override
+    public INode getLeftChild() {
+        if((index * 2) > (arr.size()-1)) return null;
+//        System.out.println("Left Child "+index*2);
+        return arr.get(index * 2);
+    }
 
-	@Override
-	public Node getLeftChild() {
-		if((index * 2) + 1 >= nodes.size()) return null;
-		Node<T> lChild = new Node<T>(nodes, (index * 2) + 1);
-		return lChild;
-	}
+    @Override
+    public INode getRightChild() {
+        if((index * 2) + 1 > (arr.size()-1)) return null;
+        return arr.get(index * 2 + 1);
+    }
 
-	@Override
-	public Node getRightChild() {
-		if((index * 2) + 2 >= nodes.size()) return null;
-		Node<T> rChild = new Node<T>(nodes, (index * 2) + 2);
-		return rChild;
-	}
+    @Override
+    public INode getParent() {
+//        if(index==1)
+//            return
+        return arr.get(index / 2);
+    }
 
-	@Override
-	public Node getParent() {
-		if(index == 0) return null;
-		Node<T> parent = new Node<T>(nodes, (index - 1) / 2);
-		return parent;
-	}
+    @Override
+    public Comparable getValue() {
+        return val;
+    }
 
-	@Override
-	public Comparable getValue() {
-		if(index >= nodes.size()) {
-			return null;
-		}
-		return (Comparable) nodes.get(index);
-	}
+    @Override
+    public void setValue(Comparable value) {
+        this.val = value;
+    }
 
-	@Override
-	public void setValue(Comparable value) {
-		if(index >= nodes.size()) return;
-		nodes.set(index, value);
-	}
+    public static void main(String[] args) {
+       IHeap heap = (IHeap)TestRunner.getImplementationInstanceForInterface(IHeap.class);
 
+        try {
+            ArrayList<Integer> arr = new ArrayList();
+            Random r = new Random();
+            PriorityQueue<Integer> pq = new PriorityQueue(Collections.reverseOrder());
 
+            int i;
+            for(i = 0; i < 25; ++i) {
+                int val = r.nextInt(1000);
+                arr.add(val);
+                pq.add(val);
+            }
 
+            heap.build(arr);
+
+            for(i = 0; i < 25; ++i) {
+               System.out.println("o/p "+(long)(Integer)pq.poll()+ " "+ (long)(Integer)heap.extract());
+            }
+        } catch (Throwable var7) {
+            TestRunner.fail("Fail to build heap", var7);
+        }
+
+    }
 }
