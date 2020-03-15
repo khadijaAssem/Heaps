@@ -1,27 +1,31 @@
 package eg.edu.alexu.csd.filestructure.sort;
 
-
 import java.util.ArrayList;
 
-public class Sort <T extends Comparable<T>> implements ISort {
+import eg.edu.alexu.csd.filestructure.sort.IHeap;
+import eg.edu.alexu.csd.filestructure.sort.ISort;
+
+public class Sort<T extends Comparable<T>> implements ISort {
+
 	@Override
 	public IHeap heapSort(ArrayList unordered) {
-		return null;
+		Heap<T> heap = new Heap<T>();
+		if(unordered == null || unordered.size() == 0) return heap;
+		heap.heapSort(unordered);
+		return heap;
+//		return null;
 	}
 
 	@Override
 	public void sortSlow(ArrayList unordered) {
-		//bubble sort
-		if(unordered.size()==0||unordered.equals(null))
-			return;
-		for (int i=0;i<unordered.size();i++){
-			for(int j=0;j<unordered.size()-1-i;j++){
-				Comparable cur = (Comparable) unordered.get(j);
-				Comparable next = (Comparable) unordered.get(j+1);
-				if(cur.compareTo(next)>0){
-					unordered.set(j,next);
-					unordered.set(j+1,cur);
-
+		if(unordered == null || unordered.size() == 0) return;
+		for(int i = 0; i < unordered.size(); i++) {
+			for(int j = 0; j < unordered.size() - i - 1; j++) {
+				Comparable current = (Comparable) unordered.get(j);
+				Comparable next = (Comparable) unordered.get(j + 1);
+				if(current.compareTo(next) > 0) {
+					unordered.set(j, next);
+					unordered.set(j + 1, current);
 				}
 			}
 		}
@@ -30,79 +34,49 @@ public class Sort <T extends Comparable<T>> implements ISort {
 
 	@Override
 	public void sortFast(ArrayList unordered) {
-		if (unordered == null || unordered.size() == 0) return;
+		if(unordered == null || unordered.size() == 0) return;
 		int l = 0;
 		int r = unordered.size() - 1;
 		mergeSort(unordered, l, r);
 	}
 
-	public void mergeSort(ArrayList unordered ,int l,int r){
-		if (l<r){
-			int m=(r+l)/2;
-			mergeSort(unordered,l,m);
-			mergeSort(unordered,m+1,r);
-			merge(unordered,l,m,r);
-
-		}
+	private void mergeSort(ArrayList array, int l, int r) {
+		if(l >= r) return;
+		int m = (l + r) / 2;
+		mergeSort(array, l, m);
+		mergeSort(array, m + 1, r);
+		merge(array, l, r, m);
 	}
-	public void merge(ArrayList unordered,int l,int m,int r){
-		int i=l;
-		int j=m+1;
-		System.out.println("hi"+unordered);
-		ArrayList temp =new ArrayList();
-		while (i<m+1 && j<= r){
-			Comparable eleL = (Comparable) unordered.get(i);
-			Comparable eleR = (Comparable) unordered.get(j);
 
-			if (eleL.compareTo(eleR)<=0){
-				temp.add(eleL);
+	private void merge(ArrayList array, int l, int r, int m) {
+		int i = m + 1;
+		int j = l;
+		ArrayList n = new ArrayList();
+		while(j <= m && i <= r) {
+			Comparable lower = (Comparable) array.get(j);
+			Comparable upper = (Comparable) array.get(i);
+			if(lower.compareTo(upper) > 0) {
+				n.add(upper);
 				i++;
-			}else{
-				temp.add(eleR);
+			} else {
+				n.add(lower);
 				j++;
-
 			}
 		}
-		while(i<m+1){
-			Comparable eleL = (Comparable) unordered.get(i);
-			temp.add(eleL);
-			i++;
-		}
-		while(j<= r){
-			Comparable eleR = (Comparable) unordered.get(j);
-			temp.add(eleR);
+		while(j <= m) {
+			Comparable lower = (Comparable) array.get(j);
+			n.add(lower);
 			j++;
 		}
-		for(i = 0; i < temp.size(); i++) {
-			unordered.set(l + i, temp.get(i));
+		while(i <= r) {
+			Comparable upper = (Comparable) array.get(i);
+			n.add(upper);
+			i++;
 		}
-		System.out.println("finally"+unordered);
-
-
+//    	System.out.println(n.toString());
+		for(i = 0; i < n.size(); i++) {
+			array.set(l + i, n.get(i));
+		}
 	}
 
-//	public static void main(String args[])
-//	{
-//		ArrayList<Integer> n =new ArrayList<Integer>();
-//		n.add(12);
-//		n.add(11);
-//		n.add(13);
-//		n.add(5);
-//		n.add(6);
-//		n.add(7);
-//
-//
-//		System.out.println(n);
-//
-//		Sort ob = new Sort();
-//		ob.mergeSort(n,0,n.size()-1);
-//
-//		System.out.println("\nSorted array");
-//		System.out.println(ob.toString());
-//	}
 }
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
