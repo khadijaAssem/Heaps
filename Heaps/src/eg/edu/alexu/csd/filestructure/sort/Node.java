@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.filestructure.sort;
 
+import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Node implements INode {
@@ -40,19 +42,31 @@ public class Node implements INode {
         this.val = value;
     }
 
-//    public static void main(String[] args) {
-//        IHeap<Integer> heap = (IHeap) TestRunner.getImplementationInstanceForInterface(IHeap.class);
-//        INode root = null;
-//        Integer max = 0;
-//
-//        for (int i = 0; i < 10; ++i) {
-//            Random r = new Random();
-//            int val = r.nextInt(200);
-//            heap.insert(val);
-//            max = Math.max(max, val);
-//        }
-//
-//        root = heap.getRoot();
-//        System.out.println(max + " " + root.getValue());
-//    }
+    public static void main(String[] args) {
+        IHeap heap = (IHeap)TestRunner.getImplementationInstanceForInterface(IHeap.class);
+
+        try {
+            PriorityQueue<Integer> pq = new PriorityQueue(Collections.reverseOrder());
+            Random r = new Random();
+            Random pick = new Random();
+
+            for(int i = 0; i < 10; ++i) {
+                int numToPick = pick.nextInt(200);
+                int val = r.nextInt(200);
+                if (numToPick % 4 == 0) {
+                    if (!pq.isEmpty()) {
+                        System.out.println("O/P 1 "+pq.poll()+" "+heap.extract());
+                    } else {
+                        System.out.println("O/P 2 "+0L+" "+(long)heap.size());
+                    }
+                } else {
+                    pq.add(val);
+                    heap.insert(val);
+                }
+            }
+        } catch (Throwable var8) {
+            TestRunner.fail("Fail in heap", var8);
+        }
+
+    }
 }
