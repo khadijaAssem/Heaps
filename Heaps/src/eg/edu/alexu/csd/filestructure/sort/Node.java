@@ -4,11 +4,11 @@ package eg.edu.alexu.csd.filestructure.sort;
 import java.util.ArrayList;
 
 class Node<T extends Comparable<T>> implements INode {
-	private int index;
+	private Integer index;
 	private ArrayList nodes;
 	Comparable val;
 
-	public Node( ArrayList nodes,int index) {
+	public Node( ArrayList nodes,Integer index) {
 		this.index = index;
 		this.nodes=nodes;
 	}
