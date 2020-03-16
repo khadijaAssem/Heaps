@@ -1,12 +1,11 @@
 package eg.edu.alexu.csd.filestructure.sort;
 
-import javax.management.RuntimeErrorException;
 import java.util.*;
 
 public class Node implements INode {
-    ArrayList<Node> arr;
-    Comparable val;
-    int index;
+    private ArrayList<Node> arr;
+    private Comparable val;
+    private int index;
 
     public Node(ArrayList<Node> arr, int index) {
         this.arr = arr;
@@ -16,7 +15,6 @@ public class Node implements INode {
     @Override
     public INode getLeftChild() {
         if((index * 2) > (arr.size()-1)) return null;
-//        System.out.println("Left Child "+index*2);
         return arr.get(index * 2);
     }
 
@@ -28,8 +26,6 @@ public class Node implements INode {
 
     @Override
     public INode getParent() {
-//        if(index==1)
-//            return
         return arr.get(index / 2);
     }
 
@@ -41,26 +37,5 @@ public class Node implements INode {
     @Override
     public void setValue(Comparable value) {
         this.val = value;
-    }
-
-    public static void main(String[] args) {
-        IHeap heap = (IHeap)TestRunner.getImplementationInstanceForInterface(IHeap.class);
-
-        try {
-            int i;
-            for(i = 0; i < 10; ++i) {
-                heap.insert("soso");
-            }
-
-            for(i = 0; i < 10; ++i) {
-                heap.extract();
-            }
-
-            String s = (String)heap.extract();
-            System.out.println(s);
-        } catch (RuntimeErrorException var3) {
-        } catch (Throwable var4) {
-            TestRunner.fail("Fail to handle extracting after inserting and removing all elements", var4);
-        }
     }
 }

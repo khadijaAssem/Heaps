@@ -2,9 +2,6 @@ package eg.edu.alexu.csd.filestructure.sort;
 
 import java.util.ArrayList;
 
-import eg.edu.alexu.csd.filestructure.sort.IHeap;
-import eg.edu.alexu.csd.filestructure.sort.ISort;
-
 public class Sort<T extends Comparable<T>> implements ISort {
 
     @Override
@@ -12,7 +9,6 @@ public class Sort<T extends Comparable<T>> implements ISort {
         if (unordered == null || unordered.size()==0) return new Heap();
         Heap heap = new Heap();
         heap.build(unordered);
-//        IHeap r = new Heap();
         for(int i=0;i<unordered.size();i++)
             unordered.set(i,heap.extract());
         heap.setSize(unordered.size());
@@ -32,7 +28,6 @@ public class Sort<T extends Comparable<T>> implements ISort {
                 }
             }
         }
-
     }
 
     @Override
@@ -76,7 +71,6 @@ public class Sort<T extends Comparable<T>> implements ISort {
             n.add(upper);
             i++;
         }
-//    	System.out.println(n.toString());
         for(i = 0; i < n.size(); i++) {
             array.set(l + i, n.get(i));
         }
