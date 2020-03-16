@@ -1,9 +1,7 @@
 package eg.edu.alexu.csd.filestructure.sort;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.PriorityQueue;
-import java.util.Random;
+import javax.management.RuntimeErrorException;
+import java.util.*;
 
 public class Node implements INode {
     ArrayList<Node> arr;
@@ -46,28 +44,23 @@ public class Node implements INode {
     }
 
     public static void main(String[] args) {
-       IHeap heap = (IHeap)TestRunner.getImplementationInstanceForInterface(IHeap.class);
+        IHeap heap = (IHeap)TestRunner.getImplementationInstanceForInterface(IHeap.class);
 
         try {
-            ArrayList<Integer> arr = new ArrayList();
-            Random r = new Random();
-            PriorityQueue<Integer> pq = new PriorityQueue(Collections.reverseOrder());
-
             int i;
-            for(i = 0; i < 25; ++i) {
-                int val = r.nextInt(1000);
-                arr.add(val);
-                pq.add(val);
+            for(i = 0; i < 10; ++i) {
+                heap.insert("soso");
             }
 
-            heap.build(arr);
-
-            for(i = 0; i < 25; ++i) {
-               System.out.println("o/p "+(long)(Integer)pq.poll()+ " "+ (long)(Integer)heap.extract());
+            for(i = 0; i < 10; ++i) {
+                heap.extract();
             }
-        } catch (Throwable var7) {
-            TestRunner.fail("Fail to build heap", var7);
+
+            String s = (String)heap.extract();
+            System.out.println(s);
+        } catch (RuntimeErrorException var3) {
+        } catch (Throwable var4) {
+            TestRunner.fail("Fail to handle extracting after inserting and removing all elements", var4);
         }
-
     }
 }

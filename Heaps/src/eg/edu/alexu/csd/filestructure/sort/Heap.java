@@ -6,7 +6,7 @@ import java.util.Collection;
 public class Heap implements IHeap {
     private int MAX = 20000000;
     int size =1;
-//    Node[] heap;
+    //    Node[] heap;
     ArrayList<Node> heap;
     int j;
     public Heap(){
@@ -175,6 +175,7 @@ public class Heap implements IHeap {
 //        for(int i=1;i<size;i++)
 //            System.out.print(heap.get(i).getValue()+" ");
 //        System.out.println();
+        if(size==1) return null;
         Comparable x ;
         try {
             x = heap.get(1).getValue();
@@ -184,7 +185,8 @@ public class Heap implements IHeap {
         j = 1;
         heapify(heap.get(1));
 //        heap[size-1].setValue(null);
-        heap.set(size-1,null);
+//        heap.set(size-1,null);
+        heap.get(size-1).setValue(x);
         size--;
 //        System.out.println("After extract");
 //        for(int i=1;i<size;i++)
@@ -249,5 +251,8 @@ public class Heap implements IHeap {
 //            System.out.print(heap.get(k).getValue()+" ");
 //        }
 //        System.out.println();
+    }
+    public void setSize(int s){
+        this.size = s;
     }
 }
